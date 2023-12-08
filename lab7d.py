@@ -10,14 +10,15 @@ import numpy as np
 class Schedule:
     def __init__(self):
         self.fruit_basket = ['apple', 'pineapple', 'orange', 'banana', 'pear', 'kiwi', 'avocado']
+        self.fruit_names = []
 
     def count_rec(self):
         n = self.rec()
         p = 0
         for i in n:
             if len(i) == 7 and len(np.unique(i)) == 7:
-                if i.index('kiwi') < i.index('apple') > i.index('pineapple'):
-                    pass
+                if not (i.index(self.fruit_names[0]) < i.index(self.fruit_names[1]) < i.index(self.fruit_names[2])):
+                    continue
                 else:
                     p += 1
                     print(*i)
@@ -28,8 +29,8 @@ class Schedule:
         p = 0
         for i in n:
             if len(i) == 7 and len(np.unique(i)) == 7:
-                if i.index('kiwi') < i.index('apple') > i.index('pineapple'):
-                    pass
+                if not (i.index(self.fruit_names[0]) < i.index(self.fruit_names[1]) < i.index(self.fruit_names[2])):
+                    continue
                 else:
                     p += 1
                     print(*i)
@@ -52,15 +53,21 @@ def start():
     print(
         'У няни 7 разных фруктов (ф1,…ф7). Сформировать (вывести) все возможные варианты меню полдника (1 фрукт)'
         ' для ребенка на неделю.')
-    print(
-        'Спустя некоторое время няня поняла что если поставить в распивании киви после яблока а ананас до то у ребёнка'
-        ' несварение. Поэтому  ')
-    print('киви должно стоять в неделе раньше яблока а ананас после')
     s = Schedule()
     a = input('Напишите rec для рекурсивного решения, iter для итеративного \n')
     while a != 'rec' and a != 'iter':
         a = input('Напишите rec для рекурсивного решения, iter для итеративного \n')
     if a == 'rec':
+        print(
+            'В качестве усложнения составления расписания напишите три фрукта из представленных на выбор:'
+            ' apple, pineapple, orange, banana, pear, kiwi, avocado'
+            ' Они будут стоять в меню таким обазом - Фрукт 1 будет всегда до фрукта 2, а фрукт 3 будет после фрукта 2')
+        fruits_name = input().split(' ')
+        while len(fruits_name) < 3 or fruits_name[1] not in s.fruit_basket or fruits_name[0] \
+                not in s.fruit_basket or fruits_name[2] not in s.fruit_basket:
+            fruits_name = input(' напишите три фрукта из представленных на выбор: apple, pineapple,'
+                                ' orange, banana, pear, kiwi, avocado\n').split(' ')
+        s.fruit_names = fruits_name
         s.count_rec()
         b = ''
         while b != 'rerun' and b != 'exit':
@@ -70,6 +77,16 @@ def start():
         else:
             exit()
     else:
+        print(
+            'В качестве усложнения составления расписания напишите три фрукта из представленных на выбор:'
+            ' apple, pineapple, orange, banana, pear, kiwi, avocado'
+            ' Они будут стоять в меню таким обазом - Фрукт 1 будет всегда до фрукта 2, а фрукт 3 будет после фрукта 2')
+        fruits_name = input().split(' ')
+        while len(fruits_name) < 3 or fruits_name[1] not in s.fruit_basket or fruits_name[0] \
+                not in s.fruit_basket or fruits_name[2] not in s.fruit_basket:
+            fruits_name = input(' напишите три фрукта из представленных на выбор: apple, pineapple,'
+                                ' orange, banana, pear, kiwi, avocado\n').split(' ')
+        s.fruit_names = fruits_name
         s.count_iter()
         b = ''
         while b != 'rerun' and b != 'exit':
